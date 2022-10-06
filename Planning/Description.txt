@@ -1,0 +1,32 @@
+Have each monster UI contained 
+within the specific monster file. 
+Add a demon hunt module 
+and add the manager system as a starting 
+point to modding
+the general system. 
+Check over the internal stuff and then start 
+on the UI using the Kivy. If the monster
+has a file, import the monster UI into the 
+tab. 
+Create a simple monster like dire wolves, 
+then try managers, then start with blood hunt 
+stuff. 
+
+Have a file that saves the current state of the 
+campaign into a JSON file 
+that can be reused. 
+ave a create new campaign and use saved 
+campaign buttons. 
+Have a plus sign for the tbs for adding a 
+monster or player
+item. For players it should just be rather 
+basic information. 
+For monsters, there should be options but 
+they should be limited to 
+legendary actions. Use the JSON file with the SRD 
+monsters in it. 
+Use this as a way to structure the monster class 
+as well
+You should be able to load in the monster stuff
+There should be an option for campaign system 
+and then monster 
