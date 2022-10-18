@@ -1,14 +1,14 @@
 # TTRPG Campaign Manager Planning Document 
 
 ### Why this project?
-    I wish to create this project as I would like to have an all in one campaign management tool that I can use. 
+    I wish to create this project as I would like to have an all in one campaign management tool that I, and others, can use for free. 
 
 ### Goal of this project: 
-    The goal of this project is to create an all in one Campaign Management Tool for GMs (Game Masters). This includes options for campaign notes, location specific notes, maps, combat, player status, and the campaigns themselves. I want the user to be able to download this tool, be able to plan for sessions, run battle with their players, and update any information that they have regarding players and regarding the campaign itself. I want to be able to support different TTRPG systems and allow GMs to program their own systems into this manager. I want to be able to support non-official content and UI customization.
+    The goal of this project is to create an all in one Campaign Management Tool for GMs (Game Masters). This includes features for campaign notes, location specific notes, maps, combat, player status, and the campaigns themselves. I want the user to be able to download this tool, be able to plan for sessions, run battle with their players, and update any information that they have regarding players and regarding the campaign itself. I want to be able to support different TTRPG systems and allow GMs to program their own systems into this manager. I want to be able to support non-official content and UI customization.
 
 ### Planning for this project: 
     This project requires intensive planning due to the magnitude of its goals. This document is that plan. This document will be 
-    updated once the plan changes and develops. 
+    updated when the plan changes and develops. 
 
 ### Design
     The design of this project is perhaps the most important part of the project as this will determine it's success. The goal of 
@@ -31,4 +31,10 @@
     
     -The first phase will be implementing the combat mechanics and official materials regarding monsters.
 
-    -The 2nd phase will be 
+    -The 2nd phase will be implementing Campaign Note Management Features. This will include a small document editor so that documents can be created, edited, and saved within the system 
+
+    - The 3rd phase will be implementing Map features. This will include the upload of a map and the saving of a waypoint where the players are currently located. 
+
+    - The 4th phase will be adding UI features to this system.
+
+Once the miimum viable product is complete, more advanced features will be implemented.
