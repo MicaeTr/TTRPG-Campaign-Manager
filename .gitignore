@@ -1,0 +1,7 @@
+Planning/Ideas.md
+Planning/Informal_Notes.md
+.pytest_cache
+__pycache__
+.conda 
+.idea 
+testing_things.py
