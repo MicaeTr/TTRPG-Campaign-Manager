@@ -1,12 +1,16 @@
-import sys 
+import sys
+
 sys.path.insert(1, 'TTRPG-Campaign-Manager/5e')
 from Fifth_Edition_Dungeons_And_Dragons.Utils.Utils import Condition_Names
+
 
 class Condition:
     """A class that represents a D&D 5e Condition. Conditions can be gained during combat but can be gained outside of
     combat as well.
     """
-    def __init__(self, name:Condition_Names, currently_have :bool = False, source:str ="", duration:int=0) -> None:
+
+    def __init__(self, name: Condition_Names, currently_have: bool = False,
+            source: str = "", duration: int = 0) -> None:
         """A method to create an instance of the Condition class.
 
         Args:
@@ -22,8 +26,7 @@ class Condition:
         self.currently_have = currently_have
         self.source = source
         self.duration = duration
-        
-    
+
     def __str__(self) -> str:
         """Returns a str representation.
 
@@ -34,7 +37,7 @@ class Condition:
             return f"\t \t CURRENTLY HAVE - {self.name.upper()} | {self.currently_have} | {self.source} | {self.duration}"
         else:
             return f"\t \t IS NOT {self.name}"
-    
+
     def gain_condition(self, source: str, duration: int):
         """A method that adds all additional details once a condition is gained by a Creature.
 
@@ -46,18 +49,20 @@ class Condition:
         self.source = source
         self.duration = duration
         self.currently_have = True
-    
+
     def remove_condition(self):
         """A method that removes a condition from a Creature.
         """
         self.currently_have = False
-        self.source = "" 
+        self.source = ""
         self.duration = 0
-    
+
+
 class Unconscious_Condition(Condition):
     """ A class that represents the Unconscious condition."""
-    def __init__(self, currently_have: bool = False, successes :int = 0, 
-                 failures : int = 0, source: str = "", duration: int = 0):
+
+    def __init__(self, currently_have: bool = False, successes: int = 0,
+            failures: int = 0, source: str = "", duration: int = 0):
         """A method to create an instance of the Unconscious_Condition class. 
 
         Args:
@@ -71,32 +76,36 @@ class Unconscious_Condition(Condition):
                 area of effect. Defaults to "".
             duration (int, optional): The maximum duration of a condition, given in rounds. Defaults to 0.
         """
-        super().__init__(Condition_Names.UNCONSCIOUS, currently_have, source, duration)
+        super().__init__(Condition_Names.UNCONSCIOUS, currently_have, source,
+                         duration)
         self.successes = successes
         self.failures = failures
-    
+
     def fail(self):
         """A method that performs the actions necessary when a Creature receives a death saving throw failure.
         """
-        self.failures +=1 
-    
+        self.failures += 1
+
     def success(self):
         """A method that performs the actions necessary when a Creature receives a death saving throw success.
         """
-        self.successes +=1
-    
+        self.successes += 1
+
     def remove_condition(self):
         """A method that removes the Unconscious_Condition from a Creature.
         """
         self.successes = 0
-        self.failures = 0 
-        super().remove_condition(self) 
+        self.failures = 0
+        super().remove_condition(self)
+
 
 class Exhausted_Condition(Condition):
     """A class representing the Exhausted Condition in accordance to the D&D 5e rules.
     """
-    def __init__(self, level:int = 0, 
-                 currently_have: bool = False, source: str = "", duration: int = 0) -> None:
+
+    def __init__(self, level: int = 0,
+            currently_have: bool = False, source: str = "",
+            duration: int = 0) -> None:
         """A method to create an instance of the Exhausted_Condition class.
 
         Args:
@@ -108,14 +117,15 @@ class Exhausted_Condition(Condition):
                 area of effect. Defaults to "".
             duration (int, optional): The maximum duration of a condition, given in rounds. Defaults to 0.
         """
-        super().__init__(Condition_Names.EXHAUSTED, currently_have, source, duration)
+        super().__init__(Condition_Names.EXHAUSTED, currently_have, source,
+                         duration)
         self.level = level
-    
+
     def gain_a_level(self):
         """A method that performs the actions necessary when a Creature gains a level of exhaustion.
         """
-        self.level +=1
-        
+        self.level += 1
+
     def remove_condition(self):
         """ A method that performs the actions necessary when a Creature removes a level of exhaustion.
         """
@@ -127,7 +137,7 @@ class Conditions:
     """
     A class that represents all of the conditions that a player may have in the game
     """
-    
+
     def __init__(self):
         """A method to create an instance of the Conditions class.
         """
@@ -148,7 +158,7 @@ class Conditions:
         self.unconscious = Unconscious_Condition(Condition_Names.UNCONSCIOUS)
         self.exhaustion = Exhausted_Condition(Condition_Names.EXHAUSTED)
 
-    def condition_meanings(self, condition:Condition_Names) -> str:
+    def condition_meanings(self, condition: Condition_Names) -> str:
         """This method returns a str describing the condition based on the given Condition_Names.
 
         Args:
@@ -157,9 +167,9 @@ class Conditions:
         Returns:
             str: The description of the given Condition_Names
         """
-        pass 
-    
-    def gain_condition(self, condition_name :Condition_Names, source, duration):
+        pass
+
+    def gain_condition(self, condition_name: Condition_Names, source, duration):
         """This method performs all actions related to a Creature gaining a Condition based on the given 
         Condition_Names.
         Args:
@@ -198,8 +208,9 @@ class Conditions:
             self.concentration.gain_condition(source=source, duration=duration)
         elif condition_name == Condition_Names.UNCONSCIOUS:
             self.unconscious.gain_condition(source=source, duration=duration)
-    
-    def remove_condition(self, condition_name :Condition_Names, source, duration):
+
+    def remove_condition(self, condition_name: Condition_Names, source,
+            duration):
         """This method performs all actions related to a Creature removing a Condition based on the given 
         Condition_Names.
         
@@ -220,7 +231,8 @@ class Conditions:
         elif condition_name == Condition_Names.GRAPPLED:
             self.grappled.remove_condition(source=source, duration=duration)
         elif condition_name == Condition_Names.INCAPACITATED:
-            self.incapacitated.remove_condition(source=source, duration=duration)
+            self.incapacitated.remove_condition(source=source,
+                                                duration=duration)
         elif condition_name == Condition_Names.INVISIBLE:
             self.invisible.remove_condition(source=source, duration=duration)
         elif condition_name == Condition_Names.PARALYZED:
@@ -236,10 +248,11 @@ class Conditions:
         elif condition_name == Condition_Names.STUNNED:
             self.stunned.remove_condition(source=source, duration=duration)
         elif condition_name == Condition_Names.CONCENTRATION:
-            self.concentration.remove_condition(source=source, duration=duration)
+            self.concentration.remove_condition(source=source,
+                                                duration=duration)
         elif condition_name == Condition_Names.UNCONSCIOUS:
             self.unconscious.remove_condition(source=source, duration=duration)
-            
+
         elif condition_name == Condition_Names.EXHAUSTED:
             self.exhaustion.remove_condition(source=source, duration=duration)
             self.exhaustion.level = 0

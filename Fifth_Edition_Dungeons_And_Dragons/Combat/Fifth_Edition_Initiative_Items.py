@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 
+
 class Fifth_Edition_Initiative_Items(ABC):
     """
     An abstract class that represents any item that can be included in a D&D 5e initiative. 
     """
-    
+
     @abstractmethod
     def __str__(self) -> str:
         """Returns a str representation.
@@ -12,8 +13,8 @@ class Fifth_Edition_Initiative_Items(ABC):
         Returns:
             str: The str representation of the given object.
         """
-        pass 
-    
+        pass
+
     @abstractmethod
     def should_skip_turn(self) -> bool:
         """ Returns a bool based on whether the given object should be skipped in the initiative order. 
@@ -21,8 +22,8 @@ class Fifth_Edition_Initiative_Items(ABC):
         Returns:
             bool: A bool based on whether the given object should be skipped in the initiative order. 
         """
-        pass 
-    
+        pass
+
     @abstractmethod
     def should_be_removed_from_initiative(self) -> bool:
         """Returns a bool based on whether the given object should be removed from the initiative order. 
@@ -31,8 +32,8 @@ class Fifth_Edition_Initiative_Items(ABC):
         Returns:
             bool: A bool based on whether the given object should be removed from the initiative order.
         """
-        pass 
-    
+        pass
+
     @abstractmethod
     def name(self) -> str:
         """ Returns the name of the given object in the form of a str.
@@ -40,4 +41,4 @@ class Fifth_Edition_Initiative_Items(ABC):
         Returns:
             str: The name of the given object.
         """
-        pass 
+        pass

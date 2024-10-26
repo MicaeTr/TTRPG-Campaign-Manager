@@ -3,6 +3,7 @@ from enum import Enum
 """A file containing different utilities required by this project.
 """
 
+
 class Condition_Names(Enum):
     """ The different names of D&D 5e Conditions.
     """
@@ -21,4 +22,4 @@ class Condition_Names(Enum):
     STUNNED = "Stunned"
     UNCONSCIOUS = "Unconscious"
     EXHAUSTED = "Exhausted"
-    CONCENTRATION ="Concentration"
+    CONCENTRATION = "Concentration"

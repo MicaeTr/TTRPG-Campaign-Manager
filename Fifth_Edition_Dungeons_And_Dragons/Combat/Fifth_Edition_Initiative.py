@@ -1,4 +1,5 @@
-from Fifth_Edition_Dungeons_And_Dragons.Combat.Fifth_Edition_Initiative_Items import Fifth_Edition_Initiative_Items as Initiative_Items
+from Fifth_Edition_Dungeons_And_Dragons.Combat.Fifth_Edition_Initiative_Items import \
+    Fifth_Edition_Initiative_Items as Initiative_Items
 
 
 class Fifth_Edition_Initiative:
@@ -31,8 +32,7 @@ class Fifth_Edition_Initiative:
         self.__current_init = 0
         self.__surprise_round = surprise_round
         self.__sort_on_dex = sort_on_dex
-        
-  
+
     def __str__(self) -> str:
         """Returns a str representation of the Initiative class.
 
@@ -44,8 +44,7 @@ class Fifth_Edition_Initiative:
             string_init += f"{item}\n"
         return f"Full Initiative Order:{string_init}\nCurrent Initiative Index: {self.__current_init}, \
             Surprise Round: {self.__surprise_round}, Sort On Dex: {self.__sort_on_dex}"
-    
-    
+
     def current_initiative_order(self) -> list[tuple[Initiative_Items, int]]:
         """Returns the current Initiative order as a list of tuple[Initiative_Items, int] where the int represents 
         the initiative of the Initiative_Items. For example, if we are currently on Apollo's initiative, 
@@ -54,18 +53,19 @@ class Fifth_Edition_Initiative:
         Returns:
             list[tuple[Initiative_Items, int]] : The current initiative order as a list of (Initiative_Items, int) 
                 where the int represents the rolled initiative of the Creature.
-        """        
+        """
         index = self.__current_init
         first_iteration = True
         order_as_list = []
-        while first_iteration or (index % len(self.__sorted_init)) != self.__current_init:
+        while first_iteration or (
+                index % len(self.__sorted_init)) != self.__current_init:
             adjusted_index = index % len(self.__sorted_init)
             order_as_list.append(self.__sorted_init[adjusted_index])
             index += 1
             if first_iteration:
                 first_iteration = False
         return order_as_list
-     
+
     def full_initiative_order(self) -> list[tuple[Initiative_Items, int]]:
         """Returns the full initiative order as a list of tuple[Initiative_Items, int] where the int represents the
         initiative of the Initiative_Items. For example, if we are currently on Apollo's initiative
@@ -75,47 +75,50 @@ class Fifth_Edition_Initiative:
         Returns:
             list[tuple[Initiative_Items, int]]: The full initiative order as a list of (Initiative_Items, int) 
                 where the int represents the initiative of the Initiative_Items.
-        """        
+        """
         return self.__sorted_init
-    
+
     def current_item(self) -> Initiative_Items:
         """Returns the Initiative_Items whose turn it currently is according to the initiative order.
 
         Returns:
             Initiative_Items: The Initiative_Items whose turn it currently is according the the initiative order.
-        """        
+        """
         return self.__sorted_init[self.__current_init]
-     
-     
-    def initial_add(self, additions: list[tuple[Initiative_Items, int]]) -> None :
+
+    def initial_add(self,
+            additions: list[tuple[Initiative_Items, int]]) -> None:
         """Adds the initial initiative rolls to the object and sorts it according to specifications.
 
         Args:
             additions: list[(Initiative_Items, int)] : A list of Initiative_Items to be 
                 processed and added to self.__sorted_init where the int represents the 
                 initiative of the Initiative_Items.
-        """        
+        """
         additions.sort(reverse=True, key=sort_key_on_roll)
         inits = [x[1] for x in additions]
-        if not self.__sort_on_dex or len(inits) == len(set(inits)): 
-            self.__sorted_init = additions 
-        else : 
+        if not self.__sort_on_dex or len(inits) == len(set(inits)):
+            self.__sorted_init = additions
+        else:
             index_dict = {}
             for index, number in enumerate(inits):
                 if number in index_dict:
                     index_dict[number].append(index)
                 else:
                     index_dict[number] = [index]
-                duplicate_inits = [indices for indices in index_dict.values() if len(indices) > 1]
-            
-            curr_index_additions = 0 
-            curr_duplicate_inits_index = 0 
+                duplicate_inits = [indices for indices in index_dict.values() if
+                                   len(indices) > 1]
+
+            curr_index_additions = 0
+            curr_duplicate_inits_index = 0
             while curr_index_additions < len(additions):
-                
+
                 if curr_duplicate_inits_index < len(duplicate_inits) \
-                and curr_index_additions in duplicate_inits[curr_duplicate_inits_index]:
-                    
-                    curr_duplicate_inits = duplicate_inits[curr_duplicate_inits_index]
+                        and curr_index_additions in duplicate_inits[
+                    curr_duplicate_inits_index]:
+
+                    curr_duplicate_inits = duplicate_inits[
+                        curr_duplicate_inits_index]
                     same_initiative = []
                     for index in curr_duplicate_inits:
                         same_initiative.append(additions[index])
@@ -123,18 +126,17 @@ class Fifth_Edition_Initiative:
                     curr_duplicate_inits_index += 1
                     same_initiative.sort(reverse=True, key=lambda x: x[0].dex())
                     self.__sorted_init += same_initiative
-                else: 
+                else:
                     self.__sorted_init.append(additions[curr_index_additions])
                     curr_index_additions += 1
-    
-    
-    def manual_change(self, old_index:int, new_index:int) -> None: 
+
+    def manual_change(self, old_index: int, new_index: int) -> None:
         """ A function to allow manual changes to the initiative order by the GM. 
 
         Args:
             old_index (int): The old index of the creature being moved.
             new_index (int): The new index of the creature being moved.
-        """        
+        """
         creature = self.__sorted_init.pop(old_index)
         self.__manual_changes.append(creature)
         if new_index > len(self.__sorted_init):
@@ -145,30 +147,30 @@ class Fifth_Edition_Initiative:
             self.move_backward()
         if new_index < self.__current_init and old_index > self.__current_init:
             self.move_forward()
-                
-    
-    def remove_during_combat(self, removals: list[tuple[Initiative_Items, int]]) -> None: 
+
+    def remove_during_combat(self,
+            removals: list[tuple[Initiative_Items, int]]) -> None:
         """Removes all given Initiative_Items from self.__sorted_init
 
         Args:
             removals (list[tuple[Initiative_Items, int]]): A list of all of the Initiative_Items 
                 being removed from __sorted_init where the int represented the initiative of the Initiative_Items.
-        """        
+        """
         for creature in removals:
             self.__singular_remove(creature)
-    
-    def add_during_combat(self, additions: list[tuple[Initiative_Items, int]]) -> None:
+
+    def add_during_combat(self,
+            additions: list[tuple[Initiative_Items, int]]) -> None:
         """Adds multiple Initiative_Items in the middle of combat. 
 
         Args:
             additions (list[tuple[Initiative_Items, int]]): Initiative_Items to add to __sorted_init where int 
                 represents the initiative of the Initiative_Items.
-        """        
+        """
         for creature in additions:
             self.__singular_add(creature)
-        
-    
-    def __singular_remove(self, removal: tuple[Initiative_Items, int]) -> None: 
+
+    def __singular_remove(self, removal: tuple[Initiative_Items, int]) -> None:
         """Removes a single given Initiative_Items from self.__sorted_init in the middle of combat.
 
         Args:
@@ -177,17 +179,16 @@ class Fifth_Edition_Initiative:
         """
         index_of_removal = self.__sorted_init.index(removal)
         self.__sorted_init.remove(removal)
-        
+
         if removal in self.__manual_changes:
             self.__manual_changes.remove(removal)
-            
+
         if index_of_removal == self.__current_init == len(self.__sorted_init):
             self.__current_init = 0
         if index_of_removal < self.__current_init:
             self.move_backward()
-        
-    
-    def __singular_add(self, addition: tuple[Initiative_Items, int]) -> None: 
+
+    def __singular_add(self, addition: tuple[Initiative_Items, int]) -> None:
         """Adds a singular given Initiative_Items according to the given initiative roll to 
         self.__sorted_init in the middle of combat.
 
@@ -196,63 +197,64 @@ class Fifth_Edition_Initiative:
                 self.__sorted_init where int represented the initiative of the Initiative_Items.
         """
 
-        adding_creature, adding_init = addition 
-        pos = 0 
+        adding_creature, adding_init = addition
+        pos = 0
         first_check = True
         for index, (creature, init) in enumerate(self.__sorted_init):
-            
+
             dex_check = adding_init == init and self.__sort_on_dex and adding_creature.dex() >= creature.dex()
-            
+
             if (creature, init) in self.__manual_changes:
                 continue
             if adding_init > init:
-                pos = index 
+                pos = index
                 break
             if dex_check and first_check:
-                pos = 0 
+                pos = 0
                 break
             if dex_check:
-                pos = index + 1 
+                pos = index + 1
                 break
             pos = index + 1
-            first_check =  False
+            first_check = False
         self.__sorted_init.insert(pos, addition)
         if pos <= self.__current_init:
             self.move_forward()
-        
+
     def __move(self, addition: int) -> None:
         """ Moves __current_init based on the given int.
 
         Args:
             addition (int): The given int.
-        """        
+        """
         self.__current_init += addition
         self.__current_init = self.__current_init % len(self.__sorted_init)
-        
-    def move_forward(self) -> None : 
+
+    def move_forward(self) -> None:
         """Moves __current_init forward and adjusts self.__surprise_round if the surprise round has ended.
-        """        
-        if self.__surprise_round and self.__current_init == len(self.__sorted_init) - 1:
-            self.__surprise_round = False 
+        """
+        if self.__surprise_round and self.__current_init == len(
+                self.__sorted_init) - 1:
+            self.__surprise_round = False
         self.__move(1)
         new_turn_creature = self.__sorted_init[self.__current_init][0]
         new_turn_creature.new_turn()
         if new_turn_creature.should_skip_turn():
             self.move_forward()
-    
+
     def is_surprise_round(self) -> bool:
         """A getter for __surprise_round.
 
         Returns:
             bool: Returns True if it is a surprise round, False otherwise. 
-        """        
+        """
         return self.__surprise_round
-        
-    def move_backward(self) -> None :
+
+    def move_backward(self) -> None:
         """Moves __current_init backwards.
         """
         self.__move(-1)
-        
+
 
 def sort_key_on_roll(tup: tuple[Initiative_Items, int]) -> int:
     """ A key function so (Creature, int) tuples return int to ensure Python sort functions according to class needs.
@@ -262,5 +264,5 @@ def sort_key_on_roll(tup: tuple[Initiative_Items, int]) -> int:
 
     Returns:
         int: the roll associated with a Creature
-    """    
+    """
     return tup[1]
